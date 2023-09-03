@@ -111,13 +111,17 @@ export class Basemaps {
             const basemaCtrlPosition = basemapControl.getBoundingClientRect();
             const ctrlTop = basemaCtrlPosition.top;
             const ctrlLeft = basemaCtrlPosition.left;
+
             const mapContainer = map.getCanvas().getBoundingClientRect();
             const mapHeight = mapContainer.height;
             const mapWidth = mapContainer.width;
+
             radioContainer.style.display = 'flex';
+
             const radioContainerPosition = radioContainer.getBoundingClientRect();
             const radioHeight = radioContainerPosition.height;
             const radioWidth = radioContainerPosition.width;
+            
             if ((ctrlTop + radioHeight) > mapHeight) {
                 radioContainer.style.marginTop = `-${radioHeight - basemaCtrlPosition.height}px`;
             } else {

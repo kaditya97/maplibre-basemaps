@@ -1,6 +1,6 @@
 {
   "name": "maplibre-basemaps",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Maplibre plugin to add basemaps layer switcher",
   "keywords": [
     "maplibre",

@@ -14,7 +14,7 @@ or
 ```html
 <link href="https://unpkg.com/maplibre-gl@2.2.0/dist/maplibre-gl.css" rel="stylesheet" />
 <script src="https://unpkg.com/maplibre-gl@2.2.0/dist/maplibre-gl.js"></script>
-<script src="https://unpkg.com/maplibre-basemaps@0.0.1/dist/maplibre-basemaps.js"></script>
+<script src="https://unpkg.com/maplibre-basemaps@0.0.2/dist/maplibre-basemaps.js"></script>
 ```
 
 ## Usage
