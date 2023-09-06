@@ -6,8 +6,8 @@
     <title>Maplibre Basemaps</title>
     <script src="https://unpkg.com/maplibre-gl@2.2.0/dist/maplibre-gl.js"></script>
     <link href="https://unpkg.com/maplibre-gl@2.2.0/dist/maplibre-gl.css" rel="stylesheet" />
-    <!-- <script src="../dist/maplibre-basemaps.js"></script> -->
-    <script src="https://unpkg.com/maplibre-basemaps@0.0.2/dist/maplibre-basemaps.js"></script>
+    <script src="../dist/maplibre-basemaps.js"></script>
+    <!-- <script src="https://unpkg.com/maplibre-basemaps@0.0.3/dist/maplibre-basemaps.js"></script> -->
     <style>
         body {
             margin: 0;
@@ -102,9 +102,8 @@
                     osmCycle,
                     esriTerrain,
                 }
-                const basemapControl = new MaplibreBasemaps.Basemaps({ basemaps: baseLayers });
+                const basemapControl = new BasemapControl({ basemaps: baseLayers });
                 map.addControl(basemapControl, 'top-right');
-
             });
         });
     </script>

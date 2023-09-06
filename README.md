@@ -14,13 +14,13 @@ or
 ```html
 <link href="https://unpkg.com/maplibre-gl@2.2.0/dist/maplibre-gl.css" rel="stylesheet" />
 <script src="https://unpkg.com/maplibre-gl@2.2.0/dist/maplibre-gl.js"></script>
-<script src="https://unpkg.com/maplibre-basemaps@0.0.2/dist/maplibre-basemaps.js"></script>
+<script src="https://unpkg.com/maplibre-basemaps@0.0.3/dist/maplibre-basemaps.js"></script>
 ```
 
 ## Usage
 ```jsx
 import Maplibre from 'maplibre-gl';
-import * as MaplibreBasemaps from 'maplibre-basemaps';
+import BasemapControl from 'maplibre-basemaps';
 ```
 
 ## Example usage
@@ -56,7 +56,7 @@ const baseLayers = {
     osmCycle,
     esriTerrain,
 }
-const basemapControl = new MaplibreBasemaps.Basemaps({ basemaps: baseLayers });
+const basemapControl = new BasemapControl({ basemaps: baseLayers });
 map.addControl(basemapControl, 'top-right');
 ```
 
@@ -84,7 +84,7 @@ export interface BasemapsConfig {
     height?: string;
 }
 
-const basemapControl = new new MaplibreBasemaps.Basemaps(config: BasemapsConfig);
+const basemapControl = new BasemapControl(config: BasemapsConfig);
 ```
 
 - `basemaps` - BaseLayerConfig, base layers objects, **required**

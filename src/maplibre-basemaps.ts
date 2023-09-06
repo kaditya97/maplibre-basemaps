@@ -1,21 +1,32 @@
-/** @typedef {import('maplibre-gl').Map} Map */
-/** @typedef {import('./basemaps').BasemapsConfig} BasemapsConfig */
+import { LayerSpecification, SourceSpecification, Map } from 'maplibre-gl';
 
-export class Basemaps {
-    /**
-   * @param {BasemapsConfig} config
-   */
-    constructor(config) {
+export interface BaseLayerConfig {
+    name: string;
+    tiles: Array<string>;
+    visibility: 'visible' | 'none';
+    attribution?: string;
+    minZoom?: number;
+    maxZoom?: number;
+  }
+
+export interface BasemapsConfig {
+    basemaps: BaseLayerConfig;
+    width?: string;
+    height?: string;
+  }
+
+export class BasemapControl {
+    basemaps: BaseLayerConfig;
+    config: BasemapsConfig;
+    _container: HTMLElement;
+    constructor(config: BasemapsConfig) {
         this.basemaps = config.basemaps ?? {};
         this.config = config;
+        this._container = document.createElement('div');
     }
 
-    /**
-     * @param {Map} map
-     * @returns {HTMLElement}
-     */
-    onAdd(map) {
-        const div = document.createElement('div');
+    onAdd(map: Map): HTMLElement { 
+        const div = this._container;
         div.className = 'maplibregl-ctrl maplibregl-ctrl-group maplibre-ctrl-basemap';
         div.innerHTML = `<button>
             <svg fill="#000000" height="18" width="18" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -54,16 +65,9 @@ export class Basemaps {
         radioContainer.style.overflowY = 'auto';
         radioContainer.style.overflowX = 'hidden';
 
-        /**
-         * @type {string}
-         */
-        let previouslayer = '';
+        let previouslayer: string = '';
 
-        /**
-         * 
-         * @param {*} event 
-         */
-        const handleChange = (event) => {
+        const handleChange = (event: any) => {
             map.setLayoutProperty(previouslayer, 'visibility', 'none');
             map.setLayoutProperty(event.target.value, 'visibility', 'visible');
             previouslayer = event.target.value;
@@ -138,10 +142,7 @@ export class Basemaps {
         }
 
         Object.entries(this.basemaps).map(([key, value]) => {
-            /**
-             * @type {maplibregl.SourceSpecification}
-             */
-            const source = {
+            const source: SourceSpecification = {
                 type: 'raster',
                 tiles: value.tiles,
                 tileSize: 256,
@@ -150,10 +151,7 @@ export class Basemaps {
                 attribution: value.attribution ?? '',
             }
 
-            /**
-             * @type {maplibregl.LayerSpecification}
-             */
-            const layer = {
+            const layer: LayerSpecification = {
                 id: key,
                 type: 'raster',
                 source: key,
@@ -169,6 +167,11 @@ export class Basemaps {
         return div;
     }
 
-    onRemove() {
+    onRemove(map: Map) {
+        this._container.parentNode?.removeChild(this._container);
+        Object.entries(this.basemaps).map(([key]) => {
+            map.removeLayer(key);
+            map.removeSource(key);
+        });
     }
 }
