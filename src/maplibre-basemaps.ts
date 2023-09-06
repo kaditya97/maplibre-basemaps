@@ -1,22 +1,24 @@
 import { LayerSpecification, SourceSpecification, Map } from 'maplibre-gl';
 
+type Visibility = 'visible' | 'none';
+
 export interface BaseLayerConfig {
     name: string;
     tiles: Array<string>;
-    visibility: 'visible' | 'none';
+    visibility: Visibility;
     attribution?: string;
     minZoom?: number;
     maxZoom?: number;
   }
 
 export interface BasemapsConfig {
-    basemaps: BaseLayerConfig;
+    basemaps: { [key: string]: BaseLayerConfig };
     width?: string;
     height?: string;
   }
 
 export class BasemapControl {
-    basemaps: BaseLayerConfig;
+    basemaps: { [key: string]: BaseLayerConfig };
     config: BasemapsConfig;
     _container: HTMLElement;
     constructor(config: BasemapsConfig) {
@@ -146,8 +148,8 @@ export class BasemapControl {
                 type: 'raster',
                 tiles: value.tiles,
                 tileSize: 256,
-                minzoom: value.minzoom ?? 0,
-                maxzoom: value.maxzoom ?? 18,
+                minzoom: value.minZoom ?? 0,
+                maxzoom: value.maxZoom ?? 18,
                 attribution: value.attribution ?? '',
             }
 
