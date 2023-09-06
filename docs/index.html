@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/maplibre-gl@2.2.0/dist/maplibre-gl.js"></script>
     <link href="https://unpkg.com/maplibre-gl@2.2.0/dist/maplibre-gl.css" rel="stylesheet" />
     <!-- <script src="../dist/maplibre-basemaps.js"></script> -->
-    <script src="https://unpkg.com/maplibre-basemaps@0.0.4/dist/maplibre-basemaps.js"></script>
+    <script src="https://unpkg.com/maplibre-basemaps@0.0.5/dist/maplibre-basemaps.js"></script>
     <style>
         body {
             margin: 0;
@@ -75,25 +75,21 @@
                 const osm = {
                     name: "Open Street Map",
                     tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
-                    visibility: 'visible',
-                    maxzoom: 18,
+                    maxZoom: 18,
                     attribution: 'osm'
                 }
                 const osmHot = {
                     name: "OSM HOT",
                     tiles: ['https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'],
-                    visibility: 'none',
                 }
                 const osmCycle = {
                     name: "OSM Cycle",
                     tiles: ['https://a.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png'],
-                    visibility: 'none'
                 }
                 const esriTerrain = {
                     name: "Esri Terrain",
                     tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}'],
-                    visibility: 'none',
-                    maxzoom: 13,
+                    maxZoom: 13,
                     attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
                 }
                 const baseLayers = {
@@ -102,7 +98,7 @@
                     osmCycle,
                     esriTerrain,
                 }
-                const basemapControl = new BasemapControl({ basemaps: baseLayers });
+                const basemapControl = new BasemapControl({ basemaps: baseLayers, initialBasemap: "osmHot" });
                 map.addControl(basemapControl, 'top-right');
             });
         });

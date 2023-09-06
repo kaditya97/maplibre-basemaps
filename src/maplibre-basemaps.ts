@@ -1,11 +1,8 @@
 import { LayerSpecification, SourceSpecification, Map } from 'maplibre-gl';
 
-type Visibility = 'visible' | 'none';
-
 export interface BaseLayerConfig {
     name: string;
     tiles: Array<string>;
-    visibility: Visibility;
     attribution?: string;
     minZoom?: number;
     maxZoom?: number;
@@ -13,16 +10,19 @@ export interface BaseLayerConfig {
 
 export interface BasemapsConfig {
     basemaps: { [key: string]: BaseLayerConfig };
+    initialBasemap?: string;
     width?: string;
     height?: string;
   }
 
 export class BasemapControl {
     basemaps: { [key: string]: BaseLayerConfig };
+    initialBasemap?: string;
     config: BasemapsConfig;
     _container: HTMLElement;
     constructor(config: BasemapsConfig) {
         this.basemaps = config.basemaps ?? {};
+        this.initialBasemap = config.initialBasemap ?? Object.keys(this.basemaps)[0];
         this.config = config;
         this._container = document.createElement('div');
     }
@@ -76,6 +76,12 @@ export class BasemapControl {
         }
 
         Object.entries(this.basemaps).map(([key, value]) => {
+            let visibilityValue: string;
+            if (this.initialBasemap === key) {
+                visibilityValue = 'visible';
+            }else {
+                visibilityValue = 'none';
+            }
             const radioOptions = document.createElement('div');
             radioOptions.style.display = 'flex';
             radioOptions.style.alignItems = 'center';
@@ -94,7 +100,7 @@ export class BasemapControl {
             radio.id = `basemap-${key}`;
             radio.name = 'options';
             radio.value = key;
-            if (value.visibility === 'visible') {
+            if (visibilityValue === 'visible') {
                 previouslayer = key;
                 radio.checked = true;
             }
@@ -144,6 +150,12 @@ export class BasemapControl {
         }
 
         Object.entries(this.basemaps).map(([key, value]) => {
+            let visibilityValue: string;
+            if (this.initialBasemap === key) {
+                visibilityValue = 'visible';
+            }else {
+                visibilityValue = 'none';
+            }
             const source: SourceSpecification = {
                 type: 'raster',
                 tiles: value.tiles,
@@ -158,7 +170,7 @@ export class BasemapControl {
                 type: 'raster',
                 source: key,
                 layout: {
-                    visibility: value.visibility,
+                    visibility: visibilityValue as  "visible" | "none",
                 },
             }
             map.addSource(key, source);
