@@ -68,6 +68,7 @@ map.removeControl(basemapControl);
 - `initialBasemap` - string, basemap key to visualize, **default: first basemap**
 - `width` - string, width for basemaps layers container, **default: '150px'**
 - `height` - string, height for basemaps layers container, **default: '100px'**
+- `keepOpen` - boolean, keep radiocontrol open, change state only when layercontrol button is clicked **default: false**
 
 Layer Configuration
 - `name` - string, name to visualize layer in container, **required**

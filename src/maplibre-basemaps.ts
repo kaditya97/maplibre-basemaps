@@ -13,6 +13,7 @@ export interface BasemapsConfig {
     initialBasemap?: string;
     width?: string;
     height?: string;
+    keepOpen?: boolean;
   }
 
 export class BasemapControl {
@@ -118,7 +119,7 @@ export class BasemapControl {
             div.appendChild(radioContainer);
         });
 
-        div.onmouseenter = () => {
+        const updateRadioContainerPosition = () => {
             const basemapControl = document.getElementsByClassName('maplibre-ctrl-basemap')[0];
             const basemaCtrlPosition = basemapControl.getBoundingClientRect();
             const ctrlTop = basemaCtrlPosition.top;
@@ -145,8 +146,31 @@ export class BasemapControl {
                 radioContainer.style.marginLeft = `${basemaCtrlPosition.width}px`;
             }
         }
+
+        if (this.config.keepOpen) {
+            setTimeout(updateRadioContainerPosition, 0);
+        }
+
+        div.onclick = () => {
+            if (this.config.keepOpen) {
+                if (radioContainer.style.display === 'none') {
+                    radioContainer.style.display = 'flex';
+                } else {
+                    radioContainer.style.display = 'none';
+                }
+            }
+        }
+
+        div.onmouseenter = () => {
+            if (!this.config.keepOpen) {
+                updateRadioContainerPosition();
+            }
+        }
+
         div.onmouseleave = () => {
-            radioContainer.style.display = 'none';
+            if (!this.config.keepOpen) {
+                radioContainer.style.display = 'none';
+            }
         }
 
         Object.entries(this.basemaps).map(([key, value]) => {
